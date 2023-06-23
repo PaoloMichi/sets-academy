@@ -1,0 +1,32 @@
+logging.config: classpath:log4j2-staging.yml
+
+# App variable
+app:
+  var:
+    context-root: /setshr
+    base-path: /home/projects/setshr/be
+    host: http://45.138.24.106
+    mailpath: /setshr
+    cors-url: ${app.var.host}
+    database-name: setshr
+    database-host: localhost
+    database-port: 3306
+    database-params: "&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true"
+    database-username: setshr-user
+    database-password: setshrpassword
+    server-port: 8081
+    ddl-auto: true
+    ssl-enabled: false
+    mail-send-enabled: false
+    user-avatar:
+      location: ${app.var.base-path}/user-avatar-image
+    maindocument:
+      location: ${app.var.base-path}/maindocument-upload
+    monthly-report-check:
+      enabled: false
+      first-scheduled-cron: "0 0 19 2 1/1 ?" 
+      second-scheduled-cron: "0 0 19 4 1/1 ?"
+      third-scheduled-cron: "0 0 19 6 1/1 ?"
+      zero-scheduled-cron: "0 0 19 L 1/1 ?"
+      enabled-test: false
+      test-scheduled-cron: "0 0 18 14 1/1 ?"

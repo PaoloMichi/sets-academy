@@ -1,0 +1,45 @@
+Configuration:
+  Name: production
+  Status: info
+  
+  Properties:
+    Property:
+      - name: log-pattern
+        value: "[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{Correlation-Id}] [%X{username}] [%c{1}] - %msg%n"
+      - name: server
+        value: resource
+      - name: log-path
+        value: /home/projects/suitejb/be/tmp/logs
+      - name: package
+        value: it.suitejb
+
+  Appenders:
+    Console:
+      Name: Console
+      PatternLayout:
+        Pattern: ${log-pattern}
+    RollingFile:
+      Name: RollingFile
+      FileName: ${log-path}/suitejb-resource.log
+      FilePattern: ${log-path}/$${date:yyyy-MM}/${server}-%d{MM-dd-yyyy}-%i.log.gz
+      PatternLayout:
+        Pattern: ${log-pattern}
+      Policies:
+        SizeBasedTriggeringPolicy:
+          Size: 10MB
+      DefaultRollOverStrategy:
+        Max: 10
+      
+  Loggers:
+    Logger:
+      - name: ${package}
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: RollingFile
+
+    Root:
+      Level: error
+      AppenderRef:
+        - ref: Console

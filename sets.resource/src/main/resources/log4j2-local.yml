@@ -1,0 +1,45 @@
+Configuration:
+  Name: local
+  Status: info
+  
+  Properties:
+    Property:
+      - name: log-pattern
+        value: "[%-5level] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{Correlation-Id}] [%X{username}] [%c{1}] - %msg%n"
+      - name: server
+        value: resource
+      - name: log-path
+        value: C:\\app\\setshr\\tmp\\logs
+      - name: package
+        value: it.setshr
+
+  Appenders:
+    Console:
+      Name: Console
+      PatternLayout:
+        Pattern: ${log-pattern}
+    RollingFile:
+      Name: RollingFile
+      FileName: ${log-path}/setshr-resource.log
+      FilePattern: ${log-path}/$${date:yyyy-MM}/${server}-%d{MM-dd-yyyy}-%i.log.gz
+      PatternLayout:
+        Pattern: ${log-pattern}
+      Policies:
+        SizeBasedTriggeringPolicy:
+          Size: 10MB
+      DefaultRollOverStrategy:
+        Max: 10
+      
+  Loggers:
+    Logger:
+      - name: ${package}
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: RollingFile
+
+    Root:
+      Level: error
+      AppenderRef:
+        - ref: Console

@@ -1,0 +1,43 @@
+server:
+  servlet:
+    context-path: /sets
+  port: ${app.var.server-port}
+
+spring:
+  profiles.active: @activatedProperties@ #local/staging/production/@activatedProperties@/uat
+  main.banner-mode: off
+  datasource:
+    url: jdbc:mysql://${app.var.database-host}:${app.var.database-port}/${app.var.database-name}?useSSL=false${app.var.database-params}
+    username: ${app.var.database-username}
+    password: ${app.var.database-password}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
+        ddl-auto: update
+    generate-ddl: ${app.var.ddl-auto}
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 55MB
+      location: ${app.var.multipart-tmp-location}s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# App Properties
+app:
+  var:
+    jwt:
+      jwtSecret: suitejb_auth-token
+      #1 giorno
+      jwtExpirationMs: 86400000
+    multipart-tmp-location: ${app.var.base-path}/tmp/upload-multipart
+    temp-file.location: ${app.var.base-path}/tmp/file
+    send-email:
+      host: ${app.var.host}
+      from: noreply@scrambledeggs.it
+      mailpath: ${app.var.mailpath}

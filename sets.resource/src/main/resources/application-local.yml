@@ -1,0 +1,44 @@
+logging.config: classpath:log4j2-local.yml
+
+# App variable
+app:
+  var:
+    context-root: /sets
+    base-path: C:\app\sets
+    host: http://localhost:4200
+    mailpath: /setshr
+    cors-url: ${app.var.host}
+    database-name: sets
+    database-host: localhost
+    database-port: 3306
+    database-params: "&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true"
+    database-username: root
+    database-password: root
+    server-port: 8080
+    ddl-auto: true
+    ssl-enabled: false
+    mail-send-enabled: false
+    user-avatar:
+      location: ${app.var.base-path}\user-avatar-image
+    maindocument:
+      location: ${app.var.base-path}\maindocument-upload
+    monthly-report-check:
+      enabled: true
+      first-scheduled-cron: "0 0 19 2 1/1 ?" 
+      second-scheduled-cron: "0 0 19 4 1/1 ?"
+      third-scheduled-cron: "0 0 19 5 1/1 ?"
+      zero-scheduled-cron: "0 0 19 L 1/1 ?"
+      enabled-test: true
+      test-scheduled-cron: "0 34 15 14 1/1 ?"
+      
+logging:
+  level:
+    io.app: INFO
+    com.zaxxer.hikari.pool.HikariPool: INFO
+    root: INFO
+    org:
+      howtodoinjava: INFO
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+      springframework.web: INFO

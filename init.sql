@@ -1,0 +1,2 @@
+-----HERE INITIAL QUERY FOR START-----
+
