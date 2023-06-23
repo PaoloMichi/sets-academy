@@ -81,4 +81,5 @@ public class Affittuario {
 	
 	//test commit
 	//ciao, facciamo un'altra prova
+	//altra prova 
 }
