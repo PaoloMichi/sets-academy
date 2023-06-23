@@ -12,45 +12,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.sets.resource.model.Stanza;
-import it.sets.resource.service.StanzaService;
-
-
-
+import it.sets.resource.model.Uomo;
+import it.sets.resource.service.UomoService;
 
 @RestController
-@RequestMapping(StanzaController.URI_SPEC)
-public class StanzaController {
+@RequestMapping(UomoController.URI_SPEC)
+public class UomoController {
 	
 	@Autowired
-	StanzaService stanzaService;
+	UomoService uomoService;
 	
-	protected static final String URI_SPEC = "/stanza";
+	protected static final String URI_SPEC = "/uomo";
 	
 	@GetMapping(value = "")
-	public List<Stanza> findAll() {
-		return stanzaService.findAll();
+	public List<Uomo> findAll() {
+		return uomoService.findAll();
 	}
 
 	@GetMapping(value = "/{id}")
-	public Stanza findyId(@PathVariable Long id) {
-		return stanzaService.findById(id);
+	public Uomo findyId(@PathVariable Long id) {
+		return uomoService.findById(id);
 	}
 
 	@PostMapping(value = "")
-	public Stanza save(@RequestBody Stanza stanza) {
-		stanza.setId(null);
-		return stanzaService.save(stanza);
+	public Uomo save(@RequestBody Uomo uomo) {
+		uomo.setId(null);
+		return uomoService.save(uomo);
 	}
 
 	@PutMapping(value = "")
-	public Stanza update(@RequestBody Stanza stanza) {
-		return stanzaService.save(stanza);
+	public Uomo update(@RequestBody Uomo uomo) {
+		
+		return uomoService.save(uomo);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public String delete(@PathVariable Long id) {
-		stanzaService.deleteById(id);
+		uomoService.deleteById(id);
 		return "OK";
 	}
 }
