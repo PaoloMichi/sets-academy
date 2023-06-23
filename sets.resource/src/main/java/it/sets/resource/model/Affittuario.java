@@ -79,5 +79,5 @@ public class Affittuario {
 		this.casa = casa;
 	}
 	
-	
+	//test commit
 }
