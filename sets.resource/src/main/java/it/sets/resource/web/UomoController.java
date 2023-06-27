@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.sets.resource.model.Uomo;
+import it.sets.resource.model.Uomo;
+import it.sets.resource.response.ResponseBase;
 import it.sets.resource.service.UomoService;
 
 @RestController
@@ -35,20 +37,53 @@ public class UomoController {
 	}
 
 	@PostMapping(value = "")
-	public Uomo save(@RequestBody Uomo uomo) {
-		uomo.setId(null);
-		return uomoService.save(uomo);
+	public ResponseBase<Uomo> save(@RequestBody Uomo uomo) {
+		ResponseBase<Uomo> response = new ResponseBase<Uomo>();
+		try {
+			response.setResponse(uomoService.save(uomo));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		return response;
 	}
 
+	
 	@PutMapping(value = "")
-	public Uomo update(@RequestBody Uomo uomo) {
+	public ResponseBase<Uomo> updateUomo(@RequestBody Uomo uomo) {
 		
-		return uomoService.save(uomo);
+		ResponseBase<Uomo> response = new ResponseBase<Uomo>();
+		try {
+			response.setResponse(uomoService.updateUomo(uomo));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
 	}
-
+	 
+	
 	@DeleteMapping(value = "/{id}")
-	public String delete(@PathVariable Long id) {
-		uomoService.deleteById(id);
-		return "OK";
+	public ResponseBase<Long> delete(@PathVariable Long id) {
+		
+		ResponseBase<Long> response = new ResponseBase<Long>();
+		
+		try {
+			uomoService.deleteById(id);
+			response.setResponse(id);
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setResponse(null);
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
 	}
 }

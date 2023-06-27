@@ -1,15 +1,20 @@
 package it.sets.resource.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Donna {
@@ -24,24 +29,29 @@ public class Donna {
 	@Column
 	private int eta;
 
-	@ManyToMany
-	@JoinTable(
-			name = "couple", 
-			joinColumns = @JoinColumn(name = "donna_id"),
-			inverseJoinColumns = @JoinColumn(name = "uomo_id")
-	)
-	List<Uomo> uomini;
+//	@ManyToMany (fetch = FetchType.LAZY)
+//	@JoinTable(
+//			name = "couple", 
+//			joinColumns = @JoinColumn(name = "donna_id"),
+//			inverseJoinColumns = @JoinColumn(name = "uomo_id")
+//	)
+//	
+//	Set<Uomo> uomini = new HashSet<>();	
 	
+	@OneToMany(mappedBy = "donna")
+	@JsonIgnore
+	Set<Couple> coppie;
 	
 	public Donna() {
 		super();
 	}
 
-	public Donna(Long id, String name, int eta) {
+	public Donna(Long id, String name, int eta, Set<Couple> coppie) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.eta = eta;
+		this.coppie = coppie;
 	}
 
 	public Long getId() {
@@ -67,6 +77,16 @@ public class Donna {
 	public void setEta(int eta) {
 		this.eta = eta;
 	}
+
+	public Set<Couple> getCoppie() {
+		return coppie;
+	}
+
+	public void setCoppie(Set<Couple> coppie) {
+		this.coppie = coppie;
+	}
+
+	
 	
 	
 }

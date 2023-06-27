@@ -23,13 +23,27 @@ public class DonnaService {
 		return donna;
 	}
 
-	public Donna save(Donna donna) {
-		
-		return donnaRepository.save(donna);
+	public Donna save(Donna donna) throws Exception {
+		Donna result = null;
+		if (donna.getId() != null) {
+			throw new Exception("l'id non va inserito, si autoincrementa");
+		}
+		result = donnaRepository.save(donna);
+		return result;
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(Long id) throws Exception {
+		
 		Donna donna = donnaRepository.findById(id).get();
 		donnaRepository.delete(donna);
+	}
+
+	public Donna updateDonna(Donna donna) throws Exception {
+		Donna result = null;
+		if (donnaRepository.existsById(donna.getId())) {	
+			result = donnaRepository.save(donna);
+			return result;
+			} 		
+		throw new Exception("Condizioni per la coppia non idonee");
 	}
 }

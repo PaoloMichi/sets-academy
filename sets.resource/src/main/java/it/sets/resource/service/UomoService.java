@@ -23,13 +23,27 @@ public class UomoService {
 		return uomo;
 	}
 
-	public Uomo save(Uomo uomo) {
-		
-		return uomoRepository.save(uomo);
+	public Uomo save(Uomo uomo) throws Exception {
+		Uomo result = null;
+		if (uomo.getId() != null) {
+			throw new Exception("l'id non va inserito, si autoincrementa");
+		}
+		result = uomoRepository.save(uomo);
+		return result;
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(Long id) throws Exception {
+		
 		Uomo uomo = uomoRepository.findById(id).get();
 		uomoRepository.delete(uomo);
+	}
+
+	public Uomo updateUomo(Uomo uomo) throws Exception {
+		Uomo result = null;
+		if (uomoRepository.existsById(uomo.getId())) {	
+			result = uomoRepository.save(uomo);
+			return result;
+			} 		
+		throw new Exception("Condizioni per la coppia non idonee");
 	}
 }

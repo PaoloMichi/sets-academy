@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.sets.resource.model.Donna;
+import it.sets.resource.model.Donna;
+import it.sets.resource.response.ResponseBase;
 import it.sets.resource.service.DonnaService;
 
 @RestController
@@ -35,20 +37,53 @@ public class DonnaController {
 	}
 
 	@PostMapping(value = "")
-	public Donna save(@RequestBody Donna donna) {
-		donna.setId(null);
-		return donnaService.save(donna);
+	public ResponseBase<Donna> save(@RequestBody Donna donna) {
+		ResponseBase<Donna> response = new ResponseBase<Donna>();
+		try {
+			response.setResponse(donnaService.save(donna));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		return response;
 	}
 
+	
 	@PutMapping(value = "")
-	public Donna update(@RequestBody Donna donna) {
+	public ResponseBase<Donna> updateDonna(@RequestBody Donna donna) {
 		
-		return donnaService.save(donna);
+		ResponseBase<Donna> response = new ResponseBase<Donna>();
+		try {
+			response.setResponse(donnaService.updateDonna(donna));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
 	}
-
+	 
+	
 	@DeleteMapping(value = "/{id}")
-	public String delete(@PathVariable Long id) {
-		donnaService.deleteById(id);
-		return "OK";
+	public ResponseBase<Long> delete(@PathVariable Long id) {
+		
+		ResponseBase<Long> response = new ResponseBase<Long>();
+		
+		try {
+			donnaService.deleteById(id);
+			response.setResponse(id);
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setResponse(null);
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
 	}
 }

@@ -1,6 +1,7 @@
 package it.sets.resource.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -23,22 +27,16 @@ public class Uomo {
 	@Column
 	private int eta;
 	
-	@ManyToMany (mappedBy = "uomini")
-	List<Donna> donne;
+//	@ManyToMany (mappedBy = "uomini")
+//	Set<Donna> donne;
+	
+	@OneToMany (mappedBy = "uomo")
+	@JsonIgnore
+	Set<Couple> coppie;
 
 	public Uomo() {
 		super();
 	}
-
-	
-	public Uomo(Long id, String name, int eta, List<Donna> donne) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.eta = eta;
-		this.donne = donne;
-	}
-
 
 	public Long getId() {
 		return id;
@@ -64,15 +62,6 @@ public class Uomo {
 		this.eta = eta;
 	}
 
-
-	public List<Donna> getDonne() {
-		return donne;
-	}
-
-
-	public void setDonne(List<Donna> donne) {
-		this.donne = donne;
-	}
 	
 	
 }
