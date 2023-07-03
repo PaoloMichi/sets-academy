@@ -22,5 +22,6 @@ public interface CasaRepository extends JpaRepository<Casa, Long> {
 	public List<Casa> findByAffittuariIsNotNull();
 
 	public List<Casa> findByAffittuariIsNull();
+	
 
 }

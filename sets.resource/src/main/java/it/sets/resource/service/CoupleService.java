@@ -1,7 +1,10 @@
 package it.sets.resource.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,7 +103,52 @@ public class CoupleService {
 			}
 		return result;
 	}
-
+	
+	
+	public Couple addCoupleBirthCheck(Long idDonna, Long idUomo) throws Exception {
+		Couple result = null;
+		
+		if (donnaRepository.existsById(idDonna) && uomoRepository.existsById(idUomo)) {
+			Donna donna = donnaRepository.findById(idDonna).get();
+			Uomo uomo = uomoRepository.findById(idUomo).get();
+			
+			Long differenzaEta = Math.abs(donna.getBirth().getTime() - uomo.getBirth().getTime());
+			Long differenzaEtaGiorni = TimeUnit.DAYS.convert(differenzaEta, TimeUnit.MILLISECONDS);
+			
+			if (differenzaEtaGiorni > 3653  || donna.getBirth().after(uomo.getBirth())) {
+				throw new Exception("Condizioni per la coppia non idonee");
+			}
+			Couple couple = new Couple();
+			couple.setUomo(uomo);
+			couple.setDonna(donna);
+			result = coupleRepository.save(couple);
+		} else {
+			throw new Exception("Almeno uno dei due id non corrisponde a un dato presente nel DB");
+		}
+	return result;
+	}
+	
+	public Couple updateCoupleBirthCheck(Couple couple) throws Exception {
+		
+		Couple result = null;
+		if (couple.getId() != null) {	
+			
+			Donna donna = couple.getDonna();
+			Uomo uomo = couple.getUomo();
+			
+			Long differenzaEta = Math.abs(donna.getBirth().getTime() - uomo.getBirth().getTime());
+			Long differenzaEtaGiorni = TimeUnit.DAYS.convert(differenzaEta, TimeUnit.MILLISECONDS);
+			
+			if (differenzaEtaGiorni > 3653  || donna.getBirth().after(uomo.getBirth())) {
+				throw new Exception("Condizioni per la coppia non idonee");
+			} 
+			result = coupleRepository.save(couple);		
+		}else {
+			throw new Exception("id non esistente");
+		}
+		return result;
+	}
+	
 	public Couple updateCouple(Couple couple) throws Exception {
 		
 		Couple result = null;
@@ -120,4 +168,6 @@ public class CoupleService {
 		Couple couple = coupleRepository.findById(id).get();
 		coupleRepository.delete(couple);
 	}
+
+
 }

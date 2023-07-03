@@ -1,5 +1,6 @@
 package it.sets.resource.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,9 @@ public class DonnaService {
 	}
 
 	public Donna updateDonna(Donna donna) throws Exception {
-		Donna result = null;
-		if (donnaRepository.existsById(donna.getId())) {	
-			result = donnaRepository.save(donna);
-			return result;
-			} 		
-		throw new Exception("Condizioni per la coppia non idonee");
+		if (!donnaRepository.existsById(donna.getId())) {	
+			throw new Exception("Condizioni per la coppia non idonee");
+		} 		
+		return donnaRepository.save(donna);
 	}
 }

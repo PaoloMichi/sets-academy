@@ -1,5 +1,6 @@
 package it.sets.resource.model;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,9 @@ public class Uomo {
 	@Column
 	private int eta;
 	
+	@Column
+	private Date birth;
+	
 //	@ManyToMany (mappedBy = "uomini")
 //	Set<Donna> donne;
 	
@@ -36,6 +40,15 @@ public class Uomo {
 
 	public Uomo() {
 		super();
+	}
+
+	public Uomo(Long id, String name, int eta, Date birth, Set<Couple> coppie) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.eta = eta;
+		this.birth = birth;
+		this.coppie = coppie;
 	}
 
 	public Long getId() {
@@ -60,6 +73,22 @@ public class Uomo {
 
 	public void setEta(int eta) {
 		this.eta = eta;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+
+	public Set<Couple> getCoppie() {
+		return coppie;
+	}
+
+	public void setCoppie(Set<Couple> coppie) {
+		this.coppie = coppie;
 	}
 
 	

@@ -24,12 +24,11 @@ public class UomoService {
 	}
 
 	public Uomo save(Uomo uomo) throws Exception {
-		Uomo result = null;
 		if (uomo.getId() != null) {
 			throw new Exception("l'id non va inserito, si autoincrementa");
 		}
-		result = uomoRepository.save(uomo);
-		return result;
+			return uomoRepository.save(uomo);
+	
 	}
 
 	public void deleteById(Long id) throws Exception {
@@ -39,11 +38,9 @@ public class UomoService {
 	}
 
 	public Uomo updateUomo(Uomo uomo) throws Exception {
-		Uomo result = null;
-		if (uomoRepository.existsById(uomo.getId())) {	
-			result = uomoRepository.save(uomo);
-			return result;
-			} 		
-		throw new Exception("Condizioni per la coppia non idonee");
+		if (!uomoRepository.existsById(uomo.getId())) {	
+			throw new Exception("Condizioni per la coppia non idonee");
+			} 		 
+		return uomoRepository.save(uomo);
 	}
 }

@@ -9,7 +9,13 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 											"it.sets.resource.model",
 											"it.sets.resource.repository",
 											"it.sets.resource.service",
-											"it.sets.resource.web" })
+											"it.sets.resource.web", 
+											"it.sets.resource.v2",
+											"it.sets.resource.v2.model",
+											"it.sets.resource.v2.repository",
+											"it.sets.resource.v2.service",
+											"it.sets.resource.v2.web"})
+
 public class SetsApplication {
 
 	public static void main(String[] args) {

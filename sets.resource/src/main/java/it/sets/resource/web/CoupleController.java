@@ -17,6 +17,8 @@ import it.sets.common.model.web.BaseResponse;
 import it.sets.resource.model.Couple;
 import it.sets.resource.response.ResponseBase;
 import it.sets.resource.service.CoupleService;
+import it.sets.resource.web.dto.CoupleDto;
+import it.sets.resource.web.dto.mapper.CoupleMapperDto;
 
 @RestController
 @RequestMapping(CoupleController.URI_SPEC)
@@ -61,12 +63,12 @@ public class CoupleController {
 	}
 
 	@PostMapping(value = "/addcouple")
-	public ResponseBase<Couple> addCouple(@RequestParam Long idDonna,
+	public ResponseBase<CoupleDto> addCouple(@RequestParam Long idDonna,
 						    @RequestParam Long idUomo) {
 		
-		ResponseBase<Couple> response = new ResponseBase<Couple>();
+		ResponseBase<CoupleDto> response = new ResponseBase<CoupleDto>();
 		try {
-			response.setResponse(coupleService.addCouple(idDonna, idUomo));
+			response.setResponse(CoupleMapperDto.toDto(coupleService.addCouple(idDonna, idUomo)));
 			response.setCode(200);
 			response.setMessage("OK");
 		} catch (Exception e) {
@@ -77,12 +79,30 @@ public class CoupleController {
 		return response;
 	}
 
+	@PostMapping(value = "/addcouplebirth")
+	public ResponseBase<Couple> addCoupleBirthCheck(@RequestParam Long idDonna,
+													@RequestParam Long idUomo) {
+		ResponseBase<Couple> response = new ResponseBase<Couple>();
+		try {
+			response.setResponse(coupleService.addCoupleBirthCheck(idDonna, idUomo));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
+	}
+	
 	@PutMapping(value = "/updatecouple")
-	public ResponseBase<Couple> updateCouple(@RequestBody Couple couple) {
+	public ResponseBase<CoupleDto> updateCouple(@RequestBody CoupleDto dto) {
 		
-		ResponseBase<Couple> response = new ResponseBase<Couple>();
+		ResponseBase<CoupleDto> response = new ResponseBase<CoupleDto>();
 		try {
-			response.setResponse(coupleService.updateCouple(couple));
+			Couple coupleEntity = CoupleMapperDto.toEntity(dto);
+			CoupleDto coupleDto = CoupleMapperDto.toDto(coupleService.updateCouple(coupleEntity));
+			response.setResponse(coupleDto);
 			response.setCode(200);
 			response.setMessage("OK");
 		} catch (Exception e) {
@@ -93,6 +113,22 @@ public class CoupleController {
 		return response;
 	}
 
+	@PutMapping(value = "/updatecouplebirth")
+	public ResponseBase<Couple> updateCoupleBirthCheck(@RequestBody Couple couple) {
+		
+		ResponseBase<Couple> response = new ResponseBase<Couple>();
+		try {
+			response.setResponse(coupleService.updateCoupleBirthCheck(couple));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch (Exception e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		
+		return response;
+	}
+	
 	@DeleteMapping(value = "/{id}")
 	public ResponseBase<Long> delete(@PathVariable Long id) {
 		

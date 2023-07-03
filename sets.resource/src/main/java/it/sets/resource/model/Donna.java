@@ -1,5 +1,6 @@
 package it.sets.resource.model;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,9 @@ public class Donna {
 	
 	@Column
 	private int eta;
+	
+	@Column
+	private Date birth;
 
 //	@ManyToMany (fetch = FetchType.LAZY)
 //	@JoinTable(
@@ -46,11 +50,12 @@ public class Donna {
 		super();
 	}
 
-	public Donna(Long id, String name, int eta, Set<Couple> coppie) {
+	public Donna(Long id, String name, int eta, Date birth, Set<Couple> coppie) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.eta = eta;
+		this.birth = birth;
 		this.coppie = coppie;
 	}
 
@@ -84,6 +89,14 @@ public class Donna {
 
 	public void setCoppie(Set<Couple> coppie) {
 		this.coppie = coppie;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
 	}
 
 	
