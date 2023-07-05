@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PreUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Nota {
 
@@ -46,6 +48,7 @@ public class Nota {
 	private Priority priority;
 
 	@ManyToOne
+	@JsonIgnore
     private Categoria categoria;
 	
 	public Nota() {
