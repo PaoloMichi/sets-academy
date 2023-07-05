@@ -1,7 +1,9 @@
 package it.sets.resource.v2.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,23 +12,21 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.persistence.ManyToOne;
+import javax.persistence.PreUpdate;
 
 @Entity
-
 public class Nota {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column 
+	@Column(insertable = false, updatable = false, columnDefinition="DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date creationDate;
 	 
-	@Column 
+	
+	@Column(insertable = false, updatable = true)
 	private Date lastModifyDate;
 	 
 	@Column
@@ -45,12 +45,15 @@ public class Nota {
 	@Enumerated(EnumType.STRING)
 	private Priority priority;
 
+	@ManyToOne
+    private Categoria categoria;
+	
 	public Nota() {
 		super();
 	}
 
 	public Nota(Long id, Date creationDate, Date lastModifyDate, Boolean checked, String title, String description,
-			Date expireDate, Priority priority) {
+			Date expireDate, Priority priority, Categoria categoria) {
 		super();
 		this.id = id;
 		this.creationDate = creationDate;
@@ -60,26 +63,8 @@ public class Nota {
 		this.description = description;
 		this.expireDate = expireDate;
 		this.priority = priority;
+		this.categoria = categoria;
 	}
-	
-	
-
-//	public Nota(Long id, String title, String description, Priority priority) {
-//		super();
-//		this.id = id;
-//		this.creationDate = new Date();
-//		this.lastModifyDate = new Date();
-//		this.checked = false;
-//		this.title = title;
-//		this.description = description;
-//		
-//		Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(creationDate);
-//        calendar.add(Calendar.MONTH, 6);
-//        this.expireDate = calendar.getTime();
-//			
-//		this.priority = priority;
-//	}
 
 	public Long getId() {
 		return id;
@@ -101,6 +86,12 @@ public class Nota {
 		return lastModifyDate;
 	}
 
+	@PreUpdate
+	public void preUpdate() {
+	    this.lastModifyDate = new Date();
+	}
+
+	
 	public void setLastModifyDate(Date lastModifyDate) {
 		this.lastModifyDate = lastModifyDate;
 	}
@@ -143,6 +134,14 @@ public class Nota {
 	
 	public void setPriority(Priority priority) {
 		this.priority = priority;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

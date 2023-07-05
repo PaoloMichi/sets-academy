@@ -25,7 +25,7 @@ public class NotaService {
 		return notaRepository.findAll();
 	}
 
-	public Nota findById(Long id) throws Exception{
+	public Nota findById(Long id) throws NoSuchElementException{
 	    Nota nota = new Nota();
 		if (notaRepository.existsById(id)) {
 			nota = notaRepository.findById(id).get();
@@ -73,18 +73,35 @@ public class NotaService {
 	}
 
 
-	public Nota updateNota(Nota notaEntity) throws Exception {
+//	public Nota updateNota(Nota notaEntity, Long id) throws Exception {
+//		
+//		if (notaEntity.getId() != null && notaEntity.getExpireDate().after(new Date())) {
+//			notaRepository.findById(id).get();
+//			notaEntity.setCreationDate(toUpdateNote.getCreationDate());
+//			notaEntity.setLastModifyDate(new Date());
+//			notaRepository.save(notaEntity);
+//		} else {
+//			throw new Exception("id non esistente o data scadenza non valida");
+//		}
+//		return notaEntity;
+//	}
+	
+	public Nota updateNotaOnlyTitleAndDescr(Nota notaEntity, Long id) throws Exception {
 		
-		Nota toUpdateNote = notaRepository.findById((long) notaEntity.getId()).get();
-		
-		if (notaEntity.getId() != null && notaEntity.getExpireDate().after(new Date())) {
-			notaEntity.setCreationDate(toUpdateNote.getCreationDate());
-			notaEntity.setLastModifyDate(new Date());
+		if (notaRepository.existsById(id)) {
+			Nota toUpdateNote = notaRepository.findById(id).get();
+			toUpdateNote.setDescription(notaEntity.getDescription());
+			toUpdateNote.setTitle(notaEntity.getTitle());
 			notaRepository.save(notaEntity);
 		} else {
-			throw new Exception("id non esistente o data scadenza non valida");
+			throw new Exception("id non esistente");
 		}
 		return notaEntity;
+	}
+	
+	public Nota updateNotaAll(Nota notaEntity) throws Exception {
+	
+		return notaRepository.save(notaEntity);
 	}
 
 	public void deleteById(Long id) throws Exception {
@@ -95,6 +112,18 @@ public class NotaService {
 		else {
 			throw new Exception("checked is not true");
 		}
+	}
+
+	public Nota toChangeChecked(Long id, Boolean checked) throws Exception {
+		Nota toUpdateNote = notaRepository.findById(id).get();
+		
+		if (notaRepository.existsById(id)) {
+			toUpdateNote.setChecked(checked);
+			notaRepository.save(toUpdateNote);
+		} else {
+			throw new Exception("id non esistente");
+		}
+		return toUpdateNote;
 	}
 
 }
