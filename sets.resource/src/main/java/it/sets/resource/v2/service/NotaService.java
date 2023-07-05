@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.sun.net.httpserver.Authenticator.Result;
 
+import it.sets.resource.v2.model.Categoria;
 import it.sets.resource.v2.model.Nota;
+import it.sets.resource.v2.repository.CategoriaRepository;
 import it.sets.resource.v2.repository.NotaRepository;
 
 @Service
@@ -18,7 +20,8 @@ public class NotaService {
 	@Autowired
 	NotaRepository notaRepository;
 	
-	
+	@Autowired
+	CategoriaRepository categoriaRepository;
 	
 	public List<Nota> findAll() {
 		
@@ -124,6 +127,18 @@ public class NotaService {
 			throw new Exception("id non esistente");
 		}
 		return toUpdateNote;
+	}
+
+	public Nota addCategoria(Long idNota, Long idCategoria) {
+		Nota toUpdate = null;
+		if (notaRepository.existsById(idNota) && categoriaRepository.existsById(idCategoria)) {
+			Categoria categoria = categoriaRepository.findById(idCategoria).get();
+			toUpdate = notaRepository.findById(idNota).get();
+			toUpdate.setCategoria(categoria);
+		} else {
+			throw new NoSuchElementException();
+		}
+		return notaRepository.save(toUpdate);
 	}
 
 }

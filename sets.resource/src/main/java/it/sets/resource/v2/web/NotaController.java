@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sun.xml.bind.v2.TODO;
 
 import it.sets.resource.response.ResponseBase;
+import it.sets.resource.v2.model.Categoria;
 import it.sets.resource.v2.model.Nota;
 import it.sets.resource.v2.service.NotaService;
 import it.sets.resource.v2.web.dto.NotaDtoGet;
@@ -224,5 +226,21 @@ public class NotaController {
 		
 		}
 		return response;
+	}
+	
+	@PutMapping(value = "/addcategoria")
+	public ResponseBase<Nota> aggiungiCategoria(@RequestParam Long idNota,
+												@RequestParam Long idCategoria) {
+		ResponseBase<Nota> response = new ResponseBase<Nota>();
+		
+		try {
+			response.setResponse(notaService.addCategoria(idNota, idCategoria));
+			response.setCode(200);
+			response.setMessage("OK");
+		} catch ( NoSuchElementException e) {
+			response.setCode(500);
+			response.setMessage("KO");
+		}
+		return response;							
 	}
 }
