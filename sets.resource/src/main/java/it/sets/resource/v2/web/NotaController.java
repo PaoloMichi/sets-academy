@@ -44,7 +44,7 @@ public class NotaController {
 		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
 		
 		try {
-			response.setResponse(notaService.findAll());
+			response.setResponse(notaService.findAllCustom());
 			response.setCode(200);
 			response.setMessage("OK");
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class NotaController {
 		ResponseBase<NotaDtoGet> response = new ResponseBase<NotaDtoGet>();
 		
 		try {
-			NotaDtoGet notaDto = NotaMapperDtoGet.toDtoGet(notaService.findById(id));
+			NotaDtoGet notaDto = NotaMapperDtoGet.toDtoGet(notaService.findByIdCustom(id));
 			response.setResponse(notaDto);
 			response.setCode(200);
 			response.setMessage("OK");
@@ -81,7 +81,7 @@ public class NotaController {
 		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
 		
 		try {
-			response.setResponse(notaService.findByIsCheck(check));
+			response.setResponse(notaService.findByIsCheckCustom(check));
 			response.setCode(200);
 			response.setMessage("OK");
 		} catch (Exception e) {
@@ -95,11 +95,10 @@ public class NotaController {
 	}
 	
 	@GetMapping(value = "/expired")
-	public ResponseBase<List<Nota>> findExpiredList(Date todayDate) {
-		todayDate = new Date();
+	public ResponseBase<List<Nota>> findExpiredList() {
 		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
 		try {
-			response.setResponse(notaService.findByExpiredList(todayDate));
+			response.setResponse(notaService.findByExpiredListCustom());
 			response.setCode(200);
 			response.setMessage("OK");
 		} catch (Exception e) {
@@ -198,7 +197,7 @@ public class NotaController {
 		ResponseBase<Long> response = new ResponseBase<Long>();
 
 		try {
-			notaService.deleteById(id);
+			notaService.deleteByIdCustom(id);
 			response.setCode(204);
 			response.setMessage("NO_CONTENT");
 		} catch (Exception e) {
@@ -242,5 +241,10 @@ public class NotaController {
 			response.setMessage("KO");
 		}
 		return response;							
+	}
+	
+	@GetMapping(value = "/findcategory/{idNota}")
+	public Categoria findCategoryByNoteId(@PathVariable Long idNota) {
+		return notaService.findCategoryByNoteId(idNota);
 	}
 }
