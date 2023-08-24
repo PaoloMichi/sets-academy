@@ -140,5 +140,18 @@ public class NotaService {
 		}
 		return notaRepository.save(toUpdate);
 	}
+	
+	public List<Nota> findByCheckAndExpiredList(Boolean check, Date todayDate) {
+	    List<Nota> result;
+
+	    if (check) {
+	        result = notaRepository.findByCheckedIsTrueAndExpireDateBefore(todayDate);
+	    } else {
+	        result = notaRepository.findByCheckedIsFalseAndExpireDateBefore(todayDate);
+	    }
+
+	    return result;
+	}
+
 
 }

@@ -14,7 +14,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 											"it.sets.resource.v2.model",
 											"it.sets.resource.v2.repository",
 											"it.sets.resource.v2.service",
-											"it.sets.resource.v2.web"})
+											"it.sets.resource.v2.web",
+											"it.sets.resource.v3"})
 
 public class SetsApplication {
 

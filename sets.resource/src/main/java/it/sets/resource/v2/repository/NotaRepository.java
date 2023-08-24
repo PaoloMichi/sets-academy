@@ -19,4 +19,7 @@ public interface NotaRepository extends JpaRepository<Nota, Long>{
 
 	public List<Nota> findByExpireDateBefore(Date todayDate);
 	
+	List<Nota> findByCheckedIsTrueAndExpireDateBefore(Date todayDate);
+
+	List<Nota> findByCheckedIsFalseAndExpireDateBefore(Date todayDate);
 }

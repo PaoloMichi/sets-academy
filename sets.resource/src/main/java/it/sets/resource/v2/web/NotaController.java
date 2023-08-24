@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import it.sets.resource.v2.web.dto.mapper.NotaMapperDtoGet;
 import it.sets.resource.v2.web.dto.mapper.NotaMapperDtoPost;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")//guardare come configurare nelle propierties
 @RequestMapping(NotaController.URI_SPEC)
 public class NotaController {
 
@@ -38,77 +40,100 @@ public class NotaController {
 	protected static final String URI_SPEC = "/nota";
 	
 	//TODO fare con response base
+//	@GetMapping(value = "")
+//	public ResponseBase<List<Nota>> findAll(){
+//		
+//		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
+//		
+//		try {
+//			response.setResponse(notaService.findAll());
+//			response.setCode(200);
+//			response.setMessage("OK");
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			response.setCode(500);
+//			response.setMessage("KO");
+//		}
+//		
+//		return response;
+//	}
+	
 	@GetMapping(value = "")
-	public ResponseBase<List<Nota>> findAll(){
+	public List<Nota> findAll(){
 		
-		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
-		
-		try {
-			response.setResponse(notaService.findAll());
-			response.setCode(200);
-			response.setMessage("OK");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			response.setCode(500);
-			response.setMessage("KO");
-		}
-		
-		return response;
+		return notaService.findAll();
 	}
 	
 	//TODO fare senza dto
+//	@GetMapping(value = "/{id}")
+//	public ResponseBase<NotaDtoGet> findById(@PathVariable Long id) {
+//		ResponseBase<NotaDtoGet> response = new ResponseBase<NotaDtoGet>();
+//		
+//		try {
+//			NotaDtoGet notaDto = NotaMapperDtoGet.toDtoGet(notaService.findById(id));
+//			response.setResponse(notaDto);
+//			response.setCode(200);
+//			response.setMessage("OK");
+//		} catch (NoSuchElementException e) {
+////			e.printStackTrace();
+//			response.setCode(500);
+//			response.setMessage("KO");
+//		
+//		}
+//		return response;
+//	}
+	
 	@GetMapping(value = "/{id}")
-	public ResponseBase<NotaDtoGet> findById(@PathVariable Long id) {
-		ResponseBase<NotaDtoGet> response = new ResponseBase<NotaDtoGet>();
-		
-		try {
-			NotaDtoGet notaDto = NotaMapperDtoGet.toDtoGet(notaService.findById(id));
-			response.setResponse(notaDto);
-			response.setCode(200);
-			response.setMessage("OK");
-		} catch (NoSuchElementException e) {
-//			e.printStackTrace();
-			response.setCode(500);
-			response.setMessage("KO");
-		
-		}
-		return response;
+	public Nota findById(@PathVariable Long id) {
+		return notaService.findById(id);
 	}
+	
+//	@GetMapping(value = "/findbycheck")
+//	public ResponseBase<List<Nota>> findByCheck(@RequestParam Boolean check) {
+//		
+//		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
+//		
+//		try {
+//			response.setResponse(notaService.findByIsCheck(check));
+//			response.setCode(200);
+//			response.setMessage("OK");
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			response.setCode(500);
+//			response.setMessage("KO");
+//		}
+//		
+//		return response;
+//		
+//	}
 	
 	@GetMapping(value = "/findbycheck")
-	public ResponseBase<List<Nota>> findByCheck(@RequestParam Boolean check) {
+	public List<Nota> findByCheck(@RequestParam Boolean check) throws Exception {
 		
-		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
-		
-		try {
-			response.setResponse(notaService.findByIsCheck(check));
-			response.setCode(200);
-			response.setMessage("OK");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			response.setCode(500);
-			response.setMessage("KO");
-		}
-		
-		return response;
-		
+		return notaService.findByIsCheck(check);
 	}
 	
+//	@GetMapping(value = "/expired")
+//	public ResponseBase<List<Nota>> findExpiredList(Date todayDate) {
+//		todayDate = new Date();
+//		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
+//		try {
+//			response.setResponse(notaService.findByExpiredList(todayDate));
+//			response.setCode(200);
+//			response.setMessage("OK");
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			response.setCode(500);
+//			response.setMessage("KO");
+//		}
+//		
+//		return response;
+//	}
+	
 	@GetMapping(value = "/expired")
-	public ResponseBase<List<Nota>> findExpiredList(Date todayDate) {
+	public List<Nota> findExpiredList(Date todayDate) {
 		todayDate = new Date();
-		ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
-		try {
-			response.setResponse(notaService.findByExpiredList(todayDate));
-			response.setCode(200);
-			response.setMessage("OK");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			response.setCode(500);
-			response.setMessage("KO");
-		}
-		
-		return response;
+		return notaService.findByExpiredList(todayDate);
 	}
 	
 	public  ResponseBase<List<Nota>> findWithFilters(@RequestParam(required = false) String all,
@@ -150,6 +175,61 @@ public class NotaController {
 		
 		return response;
 	}
+	
+	@GetMapping(value = "/findbycheckandexpire")
+	public List<Nota> findByCheckAndExpiredList(@RequestParam Boolean check) {
+	    return notaService.findByCheckAndExpiredList(check, new Date());
+	}
+
+	
+//	@GetMapping(value = "/allget")
+//	public ResponseBase<List<Nota>> allGetManager(@RequestParam(required = false) Boolean check,
+//	                                              @RequestParam(required = false) Boolean expire) {
+//	    ResponseBase<List<Nota>> response = new ResponseBase<List<Nota>>();
+//
+//	    try {
+//	        List<Nota> result;
+//
+//	        if (check == null && expire == null) {
+//	            result = findAll();
+//	        } else if (check != null && expire == null) {
+//	            result = findByCheck(check);
+//	        } else if (check == null && expire != null) {
+//	            result = findExpiredList(new Date());
+//	        } else {
+//	            result = findByCheckAndExpiredList(check);
+//	        }
+//
+//	        response.setResponse(result);
+//	        response.setCode(200);
+//	        response.setMessage("OK");
+//	    } catch (Exception e) {
+//	        System.out.println(e.getMessage());
+//	        response.setCode(500);
+//	        response.setMessage("KO");
+//	    }
+//
+//	    return response;
+//	}
+
+	@GetMapping(value = "/allget")
+	public List<Nota> allGetManager(@RequestParam(required = false) Boolean check,
+	                                @RequestParam(required = false) Boolean expire) throws Exception {
+	    List<Nota> result;
+
+	    if (check == null && expire == null) {
+	        result = findAll();
+	    } else if (check != null && expire == null) {
+	        result = findByCheck(check);
+	    } else if (check == null && expire != null) {
+	        result = findExpiredList(new Date());
+	    } else {
+	        result = findByCheckAndExpiredList(check);
+	    }
+
+	    return result;
+	}
+
 	
 	@PostMapping(value = "/add")
 	public ResponseBase<NotaDtoPost> addNota(@RequestBody NotaDtoPost dto) {
