@@ -1,6 +1,5 @@
 package it.sets.resource.v3.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,12 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PreUpdate;
 
 @Entity
-public class Storage implements Serializable{
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Storage{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,7 +66,7 @@ public class Storage implements Serializable{
         return updatedAt;
     }
 
-    @PreUpdate
+	@PreUpdate
     public void preUpdate() {
         this.updatedAt = new Date();
     }
@@ -96,6 +90,16 @@ public class Storage implements Serializable{
     public void setMaxAmount(Integer maxAmount) {
         this.maxAmount = maxAmount;
     }
+    
+
+    public Category getBaseCategory() {
+		return baseCategory;
+	}
+
+	public void setBaseCategory(Category baseCategory) {
+		this.baseCategory = baseCategory;
+	}
+
 }
    
 

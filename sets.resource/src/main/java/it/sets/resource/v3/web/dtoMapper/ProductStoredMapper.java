@@ -7,7 +7,7 @@ import it.sets.resource.v3.web.dto.ProductStoredDto;
 public class ProductStoredMapper {
     
     public static ProductStored toEntity(ProductStoredDto dto) {
-        ProductStoredPk pk = new ProductStoredPk(dto.getId1(), dto.getId2());
+        ProductStoredPk pk = new ProductStoredPk(dto.getProductId(), dto.getStorageId());
         ProductStored entity = new ProductStored();
         entity.setId(pk);
         entity.setAmount(dto.getAmount());
@@ -16,8 +16,8 @@ public class ProductStoredMapper {
     
     public static ProductStoredDto toDto(ProductStored entity) {
         ProductStoredDto dto = new ProductStoredDto();
-        dto.setId1(entity.getId().getProductId());
-        dto.setId2(entity.getId().getStorageId());
+        dto.setProductId(entity.getId().getProductId());
+        dto.setStorageId(entity.getId().getStorageId());
         dto.setAmount(entity.getAmount());
         return dto;
     }

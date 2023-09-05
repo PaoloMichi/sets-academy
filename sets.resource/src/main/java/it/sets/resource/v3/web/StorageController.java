@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.sets.resource.v3.model.Storage;
 import it.sets.resource.v3.service.StorageService;
+import it.sets.resource.v3.web.dto.StorageDto;
 
 @RestController
 @RequestMapping(StorageController.URI_SPEC)
@@ -35,14 +36,15 @@ public class StorageController {
     }
 
     @PostMapping(value = "")
-    public Storage save(@RequestBody Storage storage) {
-        storage.setId(null);
-        return storageService.save(storage);
+    public Storage save(@RequestBody StorageDto storageDto) {
+        storageDto.setId(null);
+        return storageService.add(storageDto);
     }
 
     @PutMapping(value = "")
-    public Storage update(@RequestBody Storage storage) {
-        return storageService.save(storage);
+    public Storage update(@RequestBody StorageDto storageDto) {
+        storageDto.setId(null);
+        return storageService.update(storageDto);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -16,6 +16,15 @@ public class ProductStoredPk implements Serializable {
 	public ProductStoredPk() {
 		super();
 	}
+	
+	
+	
+	public ProductStoredPk(Long storageId) {
+		super();
+		this.storageId = storageId;
+	}
+
+
 
 	public ProductStoredPk(Long productId, Long storageId) {
 		super();

@@ -1,7 +1,5 @@
 package it.sets.resource.v3.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,13 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 @Entity
-public class ProductStored implements Serializable{
+public class ProductStored{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@EmbeddedId
 	private ProductStoredPk id = new ProductStoredPk();
 	

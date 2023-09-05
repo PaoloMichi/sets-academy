@@ -13,11 +13,16 @@ import it.sets.resource.v3.model.ProductStoredPk;
 @Repository
 public interface ProductStoredRepository extends JpaRepository<ProductStored, ProductStoredPk> {
     
-    List<ProductStored> findAll();
+   
+	List<ProductStored> findAll();
     
-    Optional<ProductStored> findById(Long id);
+    Optional<ProductStored> findById(ProductStoredPk id);
     
     Category save(Category category);
     
     void deleteById(Long id);
+
+    List<ProductStored> findByStorageId (Long idStorage);
+    
+    List<ProductStored> findByAmountGreaterThanAndAmountIsNotNull(Integer amount);
 }

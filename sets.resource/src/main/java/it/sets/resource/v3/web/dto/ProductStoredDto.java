@@ -2,28 +2,28 @@ package it.sets.resource.v3.web.dto;
 
 public class ProductStoredDto {
     
-    private Long id1;
-    private Long id2;
+    private Long productId;
+    private Long storageId;
     private Integer amount;
 	
     public ProductStoredDto() {
 		super();
 	}
 
-	public Long getId1() {
-		return id1;
+	public Long getProductId() {
+		return productId;
 	}
 
-	public void setId1(Long id1) {
-		this.id1 = id1;
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
-	public Long getId2() {
-		return id2;
+	public Long getStorageId() {
+		return storageId;
 	}
 
-	public void setId2(Long id2) {
-		this.id2 = id2;
+	public void setStorageId(Long storageId) {
+		this.storageId = storageId;
 	}
 
 	public Integer getAmount() {
